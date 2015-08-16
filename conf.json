@@ -1,1 +1,1 @@
-{"sunlight_api": YOUR_API_KEY, "slack_webhook_url": YOUR_WEBHOOK_URL, "slack_username":'cub', "slack_icon":':robot:'}
+{"sunlight_api": YOUR_API_KEY, "slack_webhook_url": YOUR_WEBHOOK_URL, "slack_username":'cub', "slack_icon":':robot:',"search_terms":"education,finance"}

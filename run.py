@@ -17,6 +17,7 @@ slack_user = conf['slack_username']
 slack_icon = conf['slack_icon']
 dbuser = conf['db_user']
 dbdb = conf['database']
+bill_terms = conf['search_terms'].split(',')
 
 def do_send_alert(msg):
     return send_alert(msg,webhook,slack_user,slack_icon)
@@ -89,10 +90,8 @@ if __name__ == '__main__':
     yesterday = date.strftime(date.today() - timedelta(days=2),'%Y-%m-%d')
     tomorrow = date.strftime(date.today() + timedelta(days=1),'%Y-%m-%d')
 
-    opens_search_terms = ['"education"']
-
     try:
-        do_bills(apikey,yesterday,opens_search_terms)
+        do_bills(apikey,yesterday,bill_terms)
     except:
         print 'Could not get bills.'
     try:
