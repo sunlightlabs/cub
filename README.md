@@ -1,7 +1,7 @@
 # Cub
 **Slack integrations for Sunlight's campaign finance data**
 
-Cub is designed to poll a variety of Sunlight Foundation tools -- Political Ad Sleuth, Realtime Influence Explorer, and Openstates -- to deliver a bundle of raw intelligence about noteworth movement in the world of politics, campaigns, and the state legislature.
+Cub is designed to poll a variety of Sunlight Foundation tools -- Political Ad Sleuth, Realtime Influence Explorer, and Openstates -- to deliver a bundle of raw intelligence about noteworthy movement in the world of politics, campaigns, and the state legislature.
 
 When configured and connected to a Postgres database to keep its own copy of certain campaign finance information pulled from Realtime, Cub pushes alerts to a Slack channel on demand using Slack's webhook functionality.
 
