@@ -27,6 +27,6 @@ For folks running Cub from a virtualenv, you'll want lines in cron that look lik
 
 `SHELL=/bin/bash`
 
-`30 03 * * * cd $HOME/dev/statewatch/admin && ./build_sked_tables.sh > /home/your_user_name/path_to_logfile.log`
+`30 03 * * * cd $HOME/cub_path/admin && ./build_sked_tables.sh > /home/your_user_name/path_to_logfile.log`
 
-`30 04 * * * source $HOME/.bash_profile && workon my_virutalenv && python run.py  > home/your_user_name/path_to_other_logfile.log`
+`30 04 * * * source $HOME/.bash_profile && workon cub_virtualenv && python run.py  > home/your_user_name/path_to_other_logfile.log`
