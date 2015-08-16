@@ -8,7 +8,7 @@ When configured and connected to a Postgres database to keep its own copy of cer
 ## Configuration
 
 * There is a conf.json file. Edit it to include your Sunlight API key (free!) and your Slack Webhooks URL.
-* There are shell scripts and SQL statements in `admin/` and `sql/`. Edit them to point to the directories and databases you want. *Note that the SQL statements currently use relative URLs in a `COPY FROM` statement. This is almost certainly a terrible idea that will not work for you.* 
+* There are shell scripts and SQL statements in `admin/` and `sql/`. Edit them to point to the directories and databases you want. *Note that the SQL statements currently use relative paths in a `COPY FROM` statement. This is almost certainly a terrible idea that will not work for you. Change those to absolute paths.* 
 
 Cub is designed to run on the same computer as a Postgres server that houses its own copy of some campaign finance information pulled from Realtime. The Realtime app completes a variety of data cleaning and standardization tasks that make it a desirable source for campaign finance data as opposed to working with the raw FEC data. If you want to run Cub from one computer and host a database on another, or if you don't want to store your own data in Postgres, you'll have to do more work on the code.
 
