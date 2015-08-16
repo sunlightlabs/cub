@@ -4,13 +4,8 @@ import json
 from datetime import date,datetime
 from time import sleep
 
-def send_alert(msg):
-    with open('conf.json','r') as conf_raw:
-        conf = json.load(conf_raw)
-    the_url = conf['slack_webhook_url']
+def send_alert(msg,the_url,username,icon_emoji):
     text = msg
-    username = conf['slack_username']
-    icon_emoji = conf['slack_icon']
     the_payload = { 'text' : text, 'username' : username, \
                     'icon_emoji' : icon_emoji }
     r = requests.post(the_url, json=the_payload)
@@ -49,10 +44,7 @@ class apiRequest(object):
 
 class sunlightApiRequest(apiRequest):
 
-    def __init__(self,url,params,n_tries=3):
-        with open('conf.json','r') as conf_raw:
-            self.conf = json.load(conf_raw)
-            sunkey = self.conf['sunlight_api']
+    def __init__(self,sunkey,url,params,n_tries=3):
 
         the_params = params
         the_params['apikey'] = sunkey

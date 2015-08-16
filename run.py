@@ -3,9 +3,26 @@ from slacklight.get_bills import get_bills
 from slacklight.get_ads import get_ads
 from slacklight.get_expenditures import get_expenditures
 from datetime import date, datetime, timedelta
+import json
 
-def do_bills(get_since, opens_search_terms):
-    new_bills = get_bills(get_since,opens_search_terms)
+def load_conf():
+    with open('conf.json','r') as conf_raw:
+        conf = json.load(conf_raw)
+    return conf
+
+conf = load_conf()
+apikey = conf['sunlight_api']
+webhook = conf['slack_webhook_url']
+slack_user = conf['slack_username']
+slack_icon = conf['slack_icon']
+dbuser = conf['db_user']
+dbdb = conf['database']
+
+def do_send_alert(msg):
+    return send_alert(msg,webhook,slack_user,slack_icon)
+
+def do_bills(apikey,get_since, opens_search_terms):
+    new_bills = get_bills(apikey,get_since,opens_search_terms)
     if new_bills:
         out_url = 'http://openstates.org/all/bills/?search_text='
         outgoing_urls = ['<' + out_url + term +'|here>' for term in opens_search_terms]
@@ -20,10 +37,10 @@ def do_bills(get_since, opens_search_terms):
         opens_msg_string = ('There have been no bills updated since {0}'.format(get_since)
             + 'related to the terms: {0}'.format(','.join(opens_search_terms)))
 
-    send_alert(opens_msg_string)
+    do_send_alert(opens_msg_string)
 
-def do_ads(get_since):
-    new_ads = get_ads(get_since)
+def do_ads(apikey,get_since):
+    new_ads = get_ads(apikey,get_since)
     if new_ads.json_content:
         the_ads = new_ads.json_content['objects']
         n_ads = len(the_ads)
@@ -42,10 +59,10 @@ def do_ads(get_since):
     else:
         ads_msg_string = 'There have been no new ad records since {0}.'.format(get_since)
         
-    send_alert(ads_msg_string)
+    do_send_alert(ads_msg_string)
 
-def do_expenditures(get_since,not_after):
-    new_expenditures = get_expenditures(get_since,not_after)
+def do_expenditures(get_since,not_after,db,user):
+    new_expenditures = get_expenditures(get_since,not_after,db,user)
     if new_expenditures:
         n_exps, top, summary = new_expenditures
         exps_msg_string = ('There have been {0} sets of new expenditures '.format(str(n_exps))
@@ -56,13 +73,17 @@ def do_expenditures(get_since,not_after):
     else:
         exps_msg_string = 'There have been no new expenditures since {0}.'.format(get_since)
 
-    send_alert(exps_msg_string)
+    do_send_alert(exps_msg_string)
 
     
     
 
         
 if __name__ == '__main__':
+
+
+    def do_send_alert(msg):
+        return send_alert(msg,webhook,slack_user,slack_icon)
 
     its_today = date.strftime(date.today(),'%Y-%m-%d')
     yesterday = date.strftime(date.today() - timedelta(days=2),'%Y-%m-%d')
@@ -71,15 +92,15 @@ if __name__ == '__main__':
     opens_search_terms = ['"education"']
 
     try:
-        do_bills(yesterday,opens_search_terms)
+        do_bills(apikey,yesterday,opens_search_terms)
     except:
         print 'Could not get bills.'
     try:
-        do_ads(yesterday)
+        do_ads(apikey,yesterday)
     except:
         print 'Could not get ads.'
     try:
-        do_expenditures(yesterday,tomorrow)
+        do_expenditures(yesterday,tomorrow,dbdb,dbuser)
     except:
         print 'Could not get expenditures.'
 

@@ -1,7 +1,7 @@
 import requests
 from core import *
 
-def get_bills(a_date,search_terms):
+def get_bills(apikey,a_date,search_terms):
         
     the_url = 'http://openstates.org/api/v1/bills/'
 
@@ -10,7 +10,7 @@ def get_bills(a_date,search_terms):
     for term in search_terms:
         the_payload = { 'updated_since':a_date, \
                     'q':term }
-        api_call = sunlightApiRequest(the_url,the_payload)
+        api_call = sunlightApiRequest(apikey,the_url,the_payload)
         if api_call.json_content:
             new_bills.extend(api_call.json_content)
 
